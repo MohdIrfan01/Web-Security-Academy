@@ -1,0 +1,3 @@
+https://0a360074041105e681f1573c008600d2.web-security-academy.net/filter?category=Gifts' or 1=1--
+
+Injection: ' or 1=1--
