@@ -27,13 +27,13 @@ The first letter is 1
 Change the starting point to 2
 ' and (select substring(password,2,1) from users where username ='administrator')='§a§
 
-We can also use burp cluster bomp intruder attacker, where we can set two payload one at the starting character and another at 
+We can also use burp's 'cluster bomb' intruder features, where we can set two payload one at the starting character and another at 
 the password character field.
 ' and (select substring(password,§3§,1) from users where username ='administrator')='§a§
 
+1cs13fm30cwbqc4e4ixx
 
-The second character is c
-1cs
+
 
 
 
