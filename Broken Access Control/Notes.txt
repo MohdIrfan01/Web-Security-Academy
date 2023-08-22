@@ -1,0 +1,3 @@
+
+
+/admin/deleteUser and /admin/deleteUser/ are treated as a distinct endpoints
