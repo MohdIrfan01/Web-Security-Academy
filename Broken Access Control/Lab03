@@ -1,1 +1,4 @@
-Lab #03: 
+Lab #03: User role controlled by request parameter(Cookie: session=F7UT35XGwU1iGIiWOR8SUGWQr8yOTBHQ; Admin=true)
+
+1. Login with normal user and change the value of Admin=false to Admin=true and delete the carlos user.
+Use burp intercept to change this in every request. Or use match and replace feature
