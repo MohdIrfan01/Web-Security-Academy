@@ -1,0 +1,4 @@
+Lab #07: User ID controlled by request parameter 
+
+1. Change the value id parameter in the url
+https://0ae2002703c80ebd8375e73e00f30038.web-security-academy.net/my-account?id=carlos
