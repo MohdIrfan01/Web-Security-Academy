@@ -5,6 +5,9 @@ Lab #08: User ID controlled by request parameter, with unpredictable user IDs. T
 Lab #09: User ID controlled by request parameter with data leakage in redirect.
 Login with wiener user and try to change the userid to carlos, we are redirected to login while redircting the API of carlos is leaked
 
+Lab #10: User ID controlled by request parameter with password disclosure
+1. Login with wiener user. Change the id to carlos, there is a hidden password, view it in page source. Login with carlos user. 
+Change the id to administrator in the url. view page source to get the hidden password
 
 
 
