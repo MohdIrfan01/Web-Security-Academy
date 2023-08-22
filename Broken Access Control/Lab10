@@ -1,0 +1,4 @@
+Lab #10: User ID controlled by request parameter with password disclosure
+
+1. Login with wiener user. Change the id to carlos, there is a hidden password, view it in page source. Login with carlos user. 
+Change the id to administrator in the url. view page source to get the hidden password
