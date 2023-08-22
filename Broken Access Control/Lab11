@@ -1,0 +1,9 @@
+Lab #11: Insecure direct object references
+
+ This lab stores user chat logs directly on the server's file system, and retrieves them using static URLs. 
+
+1. Start chatting by clicking on the chat link.
+2. Click on download the transcript, it will redirect to the below url, change the value from 2 to 1.
+https://0a3600cb04628445815ea37700d500de.web-security-academy.net/download-transcript/2.txt
+
+3. The user password is stored in the script.
