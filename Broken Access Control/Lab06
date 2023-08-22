@@ -1,0 +1,7 @@
+Lab #06: Method-based access control can be circumvented
+
+1. Login with admin cred and there is functionality for upgrading a user. Upgrade the user and intercept the request and send it to repeater
+
+2. Login with normal user in an incognito browser and copy the cookie and paste it into the burp repeater. Change the username to your user
+You will get the error 'Unauthorized', change the method to Get and the user is promoted to Admin.
+
