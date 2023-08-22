@@ -8,4 +8,5 @@ stockApi=http://localhost/admin/delete?username=carlos
 
 Lab #02: Basic SSRF against another back-end system. Use burp intruder to find the internal IP and follow the above process.
 
-
+Lab #03: SSRF with blacklist-based input filter
+1. use 127.1 to bypass the url blacklist and use double url encode for a in admin.
