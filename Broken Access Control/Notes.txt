@@ -2,5 +2,11 @@
 Lab #06: Change of method
 Lab #07: User ID controlled by request parameter(Change the value id parameter in the url)
 Lab #08: User ID controlled by request parameter, with unpredictable user IDs. The userid is not predictable. A blog post reveals the user id of the author. 
-Lab #09: 
+Lab #09: User ID controlled by request parameter with data leakage in redirect.
+Login with wiener user and try to change the userid to carlos, we are redirected to login while redircting the API of carlos is leaked
+
+
+
+
+
 /admin/deleteUser and /admin/deleteUser/ are treated as a distinct endpoints
