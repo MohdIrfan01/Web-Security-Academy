@@ -15,6 +15,12 @@ This lab stores user chat logs directly on the server's file system, and retriev
 2. Click on download the transcript, it will redirect to the below url, change the value from 2 to 1.
 https://0a3600cb04628445815ea37700d500de.web-security-academy.net/download-transcript/2.txt
 
+Lab #12: Multi-step process with no access control on one step 
+1. Login with admin account and promote user carlos to admin and intercept the requests while promoting the carlos.
+Login with user wiener in private window and copy the cookie and paste in the burp in confirming the promotion of user to admin.
+also, change the user to wiener.
+
+
 
 
 
