@@ -20,6 +20,11 @@ Lab #12: Multi-step process with no access control on one step
 Login with user wiener in private window and copy the cookie and paste in the burp in confirming the promotion of user to admin.
 also, change the user to wiener.
 
+Lab #13: Referer-based access control 
+1. Login with administrator account and look at the functionality. Promote user carlos to admin while intercept is on. Send the request 
+to repeater
+2. Login with with wiener in private window and copy cookie from browser and paste it in to the burp replacing the admin cookie. 
+3. Change the user from carlos to wiener and promote it to admin
 
 
 
