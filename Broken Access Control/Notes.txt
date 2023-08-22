@@ -1,3 +1,4 @@
 
+Lab #06: Change of method
 
 /admin/deleteUser and /admin/deleteUser/ are treated as a distinct endpoints
