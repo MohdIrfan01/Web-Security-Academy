@@ -1,0 +1,7 @@
+Lab #01: Unprotected admin functionality
+
+1. Go to robots.txt
+
+User-agent: *
+Disallow: /administrator-panel
+
