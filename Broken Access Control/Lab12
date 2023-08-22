@@ -1,0 +1,5 @@
+Lab #12: Multi-step process with no access control on one step 
+
+1. Login with admin account and promote user carlos to admin and intercept the requests while promoting the carlos.
+Login with user wiener in private window and copy the cookie and paste in the burp in confirming the promotion of user to admin.
+also, change the user to wiener.
