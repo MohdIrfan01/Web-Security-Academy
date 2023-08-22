@@ -1,0 +1,6 @@
+Lab #09: User ID controlled by request parameter with data leakage in redirect 
+
+1. Login with wiener user and try to change the userid to carlos, we are redirected to login while redircting the API of carlos is leaked
+
+API key is leaked in the redirection page.
+r3FSKdNYj8MQvD3xzG8MrI7C5ih8A8wk
