@@ -1,5 +1,4 @@
 Lab #01: Basic SSRF against the local server
-
 1. Access the stock, page itercept it and sent it to burp repeater and change the stock checking url to http://localhost/admin
 2. Select show response in browser. There is an option to delete user carlos, copy the url
 https://0aec004403d00e49848269e9001100c6.web-security-academy.net/admin/delete?username=carlos
@@ -10,3 +9,21 @@ Lab #02: Basic SSRF against another back-end system. Use burp intruder to find t
 
 Lab #03: SSRF with blacklist-based input filter
 1. use 127.1 to bypass the url blacklist and use double url encode for a in admin.
+
+
+SSRF with whitelist-based input filters Bypass
+
+1. You can embed credentials in a URL before the hostname, using the @ character. For example:
+https://expected-host:fakepassword@evil-host
+
+2. You can use the # character to indicate a URL fragment. For example:
+https://evil-host#expected-host
+
+3. You can leverage the DNS naming hierarchy to place required input into a fully-qualified DNS name that you control. For example:
+https://expected-host.evil-host
+
+4. You can URL-encode characters to confuse the URL-parsing code. This is particularly useful if the code that implements the filter 
+handles URL-encoded characters differently than the code that performs the back-end HTTP request. 
+Note that you can also try double-encoding characters; some servers recursively URL-decode the input they receive, 
+which can lead to further discrepancies. 
+
