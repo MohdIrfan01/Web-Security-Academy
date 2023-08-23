@@ -11,7 +11,7 @@ Lab #03: SSRF with blacklist-based input filter
 1. use 127.1 to bypass the url blacklist and use double url encode for a in admin.
 
 
-SSRF with whitelist-based input filters Bypass
+==> SSRF with whitelist-based input filters Bypass <==
 
 1. You can embed credentials in a URL before the hostname, using the @ character. For example:
 https://expected-host:fakepassword@evil-host
@@ -26,4 +26,9 @@ https://expected-host.evil-host
 handles URL-encoded characters differently than the code that performs the back-end HTTP request. 
 Note that you can also try double-encoding characters; some servers recursively URL-decode the input they receive, 
 which can lead to further discrepancies. 
+
+5.  You can use combinations of these techniques together. 
+http://localhost:80%2523@stock.weliketoshop.net/admin/delete?username=carlos
+
+
 
