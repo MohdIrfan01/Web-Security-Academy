@@ -1,0 +1,7 @@
+1. What is OAuth?
+OAuth is commonly used authoization framework that enables websites and web applications to request limited access to a user's account on another application.
+OAuth allows users to grant this access without exposing their login credentials to the requesting application.
+This means users can fine-tune which data they want to share rather than having to hand over full control of their account to a third party.
+
+2. OAuth grant types
+O
