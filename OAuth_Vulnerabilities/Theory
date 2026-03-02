@@ -6,3 +6,8 @@ This means users can fine-tune which data they want to share rather than having 
 2. OAuth grant types
 OAuth grant types determines the the exact sequence of steps that are involved in the OAuth process.
 The grant type also affects how the client application communicates with the oauth service at each stage, including how the access token itself is sent.
+https://oauth.net/2/grant-types/
+
+OAuth Scopes
+For any OAuth grant type, the client appication has to specify which data it wants to access and what kind of operation it wants to perform. It does by using the scope parameter of the authorization request it sends to the OAuth service.
+
