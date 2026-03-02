@@ -4,4 +4,5 @@ OAuth allows users to grant this access without exposing their login credentials
 This means users can fine-tune which data they want to share rather than having to hand over full control of their account to a third party.
 
 2. OAuth grant types
-O
+OAuth grant types determines the the exact sequence of steps that are involved in the OAuth process.
+The grant type also affects how the client application communicates with the oauth service at each stage, including how the access token itself is sent.
