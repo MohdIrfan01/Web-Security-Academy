@@ -8,6 +8,54 @@ OAuth grant types determines the the exact sequence of steps that are involved i
 The grant type also affects how the client application communicates with the oauth service at each stage, including how the access token itself is sent.
 https://oauth.net/2/grant-types/
 
+In OAuth, a grant type defines the exact flow of how a client application obtains an access token from the authorization server. 
+It determines the sequence of steps, how tokens are exchanged, and the security considerations involved. 
+Grant types are often referred to as OAuth flows
+
+There are several grant types, but the two most common are:
+
+Authorization Code Grant
+
+Flow:
+
+The client app redirects the user to the authorization server.
+
+The user logs in and consents to requested scopes.
+
+The server issues an authorization code back to the client via a redirect.
+
+The client then exchanges this code for an access token using a secure server-to-server back-channel.
+
+Security:
+
+Since the access token is never exposed in the browser, this is considered the most secure flow.
+
+Requires a client_secret to authenticate the client app.
+
+Best suited for: Server-side applications.
+
+Implicit Grant
+
+Flow:
+
+The client app requests authorization.
+
+After user login and consent, the access token is sent directly in the URL fragment of the redirect.
+
+Security:
+
+Less secure because the token is exposed in the browser and no back-channel is used.
+
+Best suited for: Single-page applications or native apps that cannot store a client_secret.
+
+Scopes: Define what data or operations the client app can access. These vary by provider, but OpenID Connect adds standardized scopes like openid profile for user identity data.
+
+State parameter: Acts as a CSRF protection mechanism by ensuring the response matches the original request.
+
+Access token: A bearer token that allows the client to call APIs on behalf of the user.
+
+Resource server: Validates the token and returns user data based on the granted scopes
+
 OAuth Scopes
 For any OAuth grant type, the client appication has to specify which data it wants to access and what kind of operation it wants to perform. It does by using the scope parameter of the authorization request it sends to the OAuth service.
 
